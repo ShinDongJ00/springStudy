@@ -1,11 +1,7 @@
-package hello.core.service;
+package hello.core.member;
 
-import hello.core.member.Grade;
-import hello.core.member.Member;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class MemberServiceImplTest {
 
