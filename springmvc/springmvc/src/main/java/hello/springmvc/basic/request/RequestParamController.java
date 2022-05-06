@@ -1,10 +1,8 @@
 package hello.springmvc.basic.request;
 
+import hello.springmvc.basic.UserInfo;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -102,4 +100,25 @@ public class RequestParamController {
         return "ok";
     }
 
+    /**
+     * @ModelAttribute 사용 -> model.addAttribute 자동적용
+     */
+    @ResponseBody
+    @RequestMapping("/model-attribute-v1")
+    public String modelAttributeV1(@ModelAttribute UserInfo userInfo){
+
+        log.info("username={}, age={}", userInfo.getUsername(), userInfo.getAge());
+        return "ok";
+    }
+
+    /**
+     * @ModelAttribute 생략 가능
+     */
+    @ResponseBody
+    @RequestMapping("/model-attribute-v2")
+    public String modelAttributeV2(UserInfo userInfo){
+
+        log.info("username={}, age={}", userInfo.getUsername(), userInfo.getAge());
+        return "ok";
+    }
 }
