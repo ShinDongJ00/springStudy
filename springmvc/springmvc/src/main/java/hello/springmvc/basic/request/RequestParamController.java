@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -37,6 +38,67 @@ public class RequestParamController {
             @RequestParam("username") String memberName,
             @RequestParam("age") int memberAge) {
         log.info("username={}, age={}", memberName, memberAge);
+        return "ok";
+    }
+
+    /**
+     * @RequestParam 사용
+     * HTTP 파라미터 이름이 변수 이름과 같으면 @RequestParam(name="xxx") 생략가능
+     */
+    @ResponseBody
+    @RequestMapping("/request-param-v3")
+    public String requestParamV3(@RequestParam String username, @RequestParam int age){
+
+        log.info("username={}, age={}",username,age);
+        return "ok";
+    }
+
+    /**
+     * @RequestParam 사용
+     * String, int 등의 단순 타입은 @RequestParam생략가능
+     * 어노테이션 생략시 required=false 자동 적용
+     */
+    @ResponseBody
+    @RequestMapping("/request-param-v4")
+    public String requestParamV4(String username, int age){
+        log.info("username={}, age={}",username,age);
+        return "ok";
+    }
+
+    /**
+     * required=true -> username이 없을 시 예외
+     * /request-param-required?username= -> 빈문자로 통과
+     * int age -> int는 null을 받을수 없어서 500에러 -> Integer로 받음 or defaultValue 사용
+     */
+    @ResponseBody
+    @RequestMapping("/request-param-required")
+    public String requestParamRequired(@RequestParam(required = true)String username
+            , @RequestParam(required = false)Integer age){
+
+        log.info("username={}, age={}",username, age);
+        return "ok";
+    }
+
+    /**
+     * defaultValue 사용 (빈 문자의 경우도 적용됨)
+     */
+    @ResponseBody
+    @RequestMapping("/request-param-default")
+    public String requestParamDefault(@RequestParam(required = true, defaultValue = "guest")String username
+                                      , @RequestParam(required = false, defaultValue = "-1")int age){
+
+        log.info("username={}, age={},",username, age);
+        return "ok";
+    }
+
+    /**
+     * Map으로 조회
+     */
+    @ResponseBody
+    @RequestMapping("/request-param-map")
+    public String requestParamMap(@RequestParam Map<String,Object> paramMap){
+
+        log.info("username={}, age={}",paramMap.get("username"), paramMap.get("age"));
         return "ok";
     }
 
